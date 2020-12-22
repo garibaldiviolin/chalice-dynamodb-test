@@ -131,3 +131,6 @@ dmypy.json
 # Chalice (AWS Lambda)
 */.chalice/deployments/
 */.chalice/venv/
+
+# DynamoDB for testing
+dynamodb_local_latest/
