@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Chalice (AWS Lambda)
+*/.chalice/deployments/
+*/.chalice/venv/
