@@ -2,7 +2,7 @@ import boto3
 from botocore.exceptions import ClientError
 from chalice import Chalice, Response
 
-app = Chalice(app_name='employees-api')
+app = Chalice(app_name='employees_api')
 
 
 @app.route('/employees', methods=["POST"])
