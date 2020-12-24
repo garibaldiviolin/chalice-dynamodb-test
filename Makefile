@@ -5,4 +5,4 @@ run-local-chalice:
 	cd employees_api && pipenv run chalice local --port 8001
 
 test:
-	pipenv run pytest
+	pipenv run pytest -vvs
