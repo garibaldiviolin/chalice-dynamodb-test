@@ -16,10 +16,10 @@ def create_employee():
 
     json_body = app.current_request.json_body
 
-    response = table.put_item(Item=json_body)
+    table.put_item(Item=json_body)
 
     return Response(
-        body=response,
+        body=json_body,
         status_code=201
     )
 
