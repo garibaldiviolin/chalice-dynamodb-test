@@ -84,9 +84,9 @@ def delete_employee(employee_name):
             Key={
                 "employee_name": employee_name,
             },
-            ConditionExpression="employee_name = :v_nome",
+            ConditionExpression="employee_name = :v_employee_name",
             ExpressionAttributeValues={
-                ":v_nome": employee_name
+                ":v_employee_name": employee_name
             }
         )
     except ClientError as e:
