@@ -92,3 +92,24 @@ def test_delete_employee_not_found(lambda_client, employee):
     )
     assert response.status_code == 404
     assert response.json_body == {"error": "not_found"}
+
+
+@patch("boto3.resource")
+def test_delete_employee_internal_error(boto3_resource_mock, lambda_client,
+                                        employee):
+    table_mock = Mock()
+    table_mock.delete_item = Mock()
+    table_mock.delete_item.side_effect = ClientError(
+        error_response={"Error": {"Code": "InternalError"}},
+        operation_name=None,
+    )
+    dynamodb_mock = Mock()
+    dynamodb_mock.Table = Mock(return_value=table_mock)
+    boto3_resource_mock.return_value = dynamodb_mock
+
+    response = lambda_client.http.delete(
+        f"/employees/employee_not_found",
+        headers={"Content-Type": "application/json"}
+    )
+    assert response.status_code == 500
+    assert response.json_body == {"error": "internal_error"}
