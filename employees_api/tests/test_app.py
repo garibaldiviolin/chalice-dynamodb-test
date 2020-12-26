@@ -98,6 +98,22 @@ def test_update_employee(lambda_client, employee, employee_url):
     assert response.json_body == employee
 
 
+def test_update_employee_without_fields(lambda_client, employee, employee_url):
+    response = lambda_client.http.put(
+        employee_url,
+        body="{}",
+        headers={"Content-Type": "application/json"}
+    )
+    assert response.status_code == 400
+    assert response.json_body == [
+        {
+            "loc": ["city"],
+            "msg": "field required",
+            "type": "value_error.missing"
+        }
+    ]
+
+
 def test_delete_employee(lambda_client, database_employee, employee,
                          employee_url):
     response = lambda_client.http.delete(

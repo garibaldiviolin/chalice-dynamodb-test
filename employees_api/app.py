@@ -3,7 +3,7 @@ from chalice import Chalice, Response
 from pydantic.error_wrappers import ValidationError
 
 from database import load_database_table
-from models import Employee
+from models import UpdateEmployee, Employee
 
 app = Chalice(app_name="employees_api")
 
@@ -52,18 +52,21 @@ def get_employee(employee_name):
 
 @app.route("/employees/{employee_name}", methods=["PUT"])
 def update_employee(employee_name):
-    employee = Employee(**app.current_request.json_body)
+    try:
+        employee = UpdateEmployee(**app.current_request.json_body)
+    except ValidationError as exc:
+        return Response(
+            body=exc.json(),
+            status_code=400
+        )
 
     table = load_database_table("Employees")
-
-    json_body = app.current_request.json_body
-    del json_body["employee_name"]
 
     response = table.update_item(
         Key={"employee_name": employee_name},
         UpdateExpression="set city=:city",
         ExpressionAttributeValues={
-            ":city": json_body["city"],
+            ":city": employee.dict()["city"],
         },
         ReturnValues="ALL_NEW"
     )
