@@ -1,6 +1,10 @@
 from pydantic import BaseModel
 
 
-class Employee(BaseModel):
-    employee_name: str
+class UpdateEmployee(BaseModel):
     city: str
+
+
+class Employee(UpdateEmployee):
+    city: str
+    employee_name: str
