@@ -23,15 +23,15 @@ def test_create_employee_without_fields(lambda_client, employees_url):
     assert response.status_code == 400
     assert response.json_body == [
         {
-            "loc": ["employee_name"],
+            "loc": ["city"],
             "msg": "field required",
             "type": "value_error.missing"
         },
         {
-            "loc": ["city"],
+            "loc": ["employee_name"],
             "msg": "field required",
             "type": "value_error.missing"
-        }
+        },
     ]
 
 
