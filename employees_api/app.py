@@ -1,21 +1,29 @@
 from botocore.exceptions import ClientError
 from chalice import Chalice, Response
+from pydantic.error_wrappers import ValidationError
 
 from database import load_database_table
+from models import Employee
 
 app = Chalice(app_name="employees_api")
 
 
 @app.route("/employees", methods=["POST"])
 def create_employee():
+    try:
+        employee = Employee(**app.current_request.json_body)
+    except ValidationError as exc:
+        return Response(
+            body=exc.json(),
+            status_code=400
+        )
+
     table = load_database_table("Employees")
 
-    json_body = app.current_request.json_body
-
-    table.put_item(Item=json_body)
+    table.put_item(Item=employee.dict())
 
     return Response(
-        body=json_body,
+        body=employee.json(),
         status_code=201
     )
 
@@ -44,6 +52,8 @@ def get_employee(employee_name):
 
 @app.route("/employees/{employee_name}", methods=["PUT"])
 def update_employee(employee_name):
+    employee = Employee(**app.current_request.json_body)
+
     table = load_database_table("Employees")
 
     json_body = app.current_request.json_body

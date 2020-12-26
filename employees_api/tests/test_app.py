@@ -14,6 +14,27 @@ def test_create_employee(lambda_client, employee, employees_url):
     assert response.json_body == employee
 
 
+def test_create_employee_without_fields(lambda_client, employees_url):
+    response = lambda_client.http.post(
+        employees_url,
+        body="{}",
+        headers={"Content-Type": "application/json"}
+    )
+    assert response.status_code == 400
+    assert response.json_body == [
+        {
+            'loc': ['employee_name'],
+            'msg': 'field required',
+            'type': 'value_error.missing'
+        },
+        {
+            'loc': ['city'],
+            'msg': 'field required',
+            'type': 'value_error.missing'
+        }
+    ]
+
+
 def test_list_employees(lambda_client, employees_url, database_employee):
     response = lambda_client.http.get(
         employees_url,
