@@ -2,17 +2,14 @@ import boto3
 from botocore.exceptions import ClientError
 from chalice import Chalice, Response
 
+from .database import load_database_table
+
 app = Chalice(app_name='employees_api')
 
 
 @app.route('/employees', methods=["POST"])
 def create_employee():
-    dynamodb = boto3.resource(
-        "dynamodb",
-        endpoint_url="http://localhost:8000"
-    )
-
-    table = dynamodb.Table('Employees')
+    table = load_database_table('Employees')
 
     json_body = app.current_request.json_body
 
@@ -38,9 +35,7 @@ def list_employees():
 
 @app.route('/employees/{employee_name}', methods=["GET"])
 def get_employee(employee_name):
-    dynamodb = boto3.resource('dynamodb', endpoint_url="http://localhost:8000")
-
-    table = dynamodb.Table('Employees')
+    table = load_database_table('Employees')
 
     try:
         response = table.get_item(Key={'employee_name': employee_name})
@@ -55,9 +50,7 @@ def get_employee(employee_name):
 
 @app.route('/employees/{employee_name}', methods=["PUT"])
 def update_employee(employee_name):
-    dynamodb = boto3.resource('dynamodb', endpoint_url="http://localhost:8000")
-
-    table = dynamodb.Table('Employees')
+    table = load_database_table('Employees')
 
     json_body = app.current_request.json_body
     del json_body["employee_name"]
@@ -75,9 +68,7 @@ def update_employee(employee_name):
 
 @app.route('/employees/{employee_name}', methods=["DELETE"])
 def delete_employee(employee_name):
-    dynamodb = boto3.resource('dynamodb', endpoint_url="http://localhost:8000")
-
-    table = dynamodb.Table('Employees')
+    table = load_database_table('Employees')
 
     try:
         table.delete_item(
