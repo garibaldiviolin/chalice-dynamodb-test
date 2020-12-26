@@ -26,7 +26,7 @@ def database_table():
         endpoint_url="http://localhost:8000"
     )
 
-    return dynamodb.Table('Employees')
+    return dynamodb.Table("Employees")
 
 
 @pytest.fixture

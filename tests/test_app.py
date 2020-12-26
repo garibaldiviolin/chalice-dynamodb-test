@@ -22,7 +22,7 @@ def test_list_employees(lambda_client):
     assert response.status_code == 200
     assert response.json_body == {
         "results": [
-            {'id': '1'}
+            {"id": "1"}
         ]
     }
 
