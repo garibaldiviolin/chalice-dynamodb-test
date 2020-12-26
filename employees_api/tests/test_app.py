@@ -14,17 +14,15 @@ def test_create_employee(lambda_client, employee, employees_url):
     assert response.json_body == employee
 
 
-def test_list_employees(lambda_client, employees_url):
+def test_list_employees(lambda_client, employees_url, database_employee):
     response = lambda_client.http.get(
         employees_url,
         headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 200
-    assert response.json_body == {
-        "results": [
-            {"id": "1"}
-        ]
-    }
+    assert response.json_body == [
+        {'city': 'Houston', 'employee_name': 'John Dunbar'}
+    ]
 
 
 def test_get_employee(lambda_client, database_employee, employee,

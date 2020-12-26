@@ -2,7 +2,7 @@ import boto3
 import pytest
 from chalice.test import Client
 
-from employees_api.app import app
+from app import app
 
 
 @pytest.fixture
