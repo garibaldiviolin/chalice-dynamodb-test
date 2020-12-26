@@ -14,13 +14,13 @@ def test_employee_without_required_fields():
         Employee(**{})
     assert exc.value.errors() == [
         {
-            'loc': ('employee_name',),
-            'msg': 'field required',
-            'type': 'value_error.missing'
+            "loc": ("employee_name",),
+            "msg": "field required",
+            "type": "value_error.missing"
         },
         {
-            'loc': ('city',),
-            'msg': 'field required',
-            'type': 'value_error.missing'
+            "loc": ("city",),
+            "msg": "field required",
+            "type": "value_error.missing"
         }
     ]

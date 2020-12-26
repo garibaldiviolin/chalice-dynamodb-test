@@ -32,7 +32,7 @@ def create_employee():
 def list_employees():
     table = load_database_table("Employees")
     response = table.scan()
-    return response['Items']
+    return response["Items"]
 
 
 @app.route("/employees/{employee_name}", methods=["GET"])
