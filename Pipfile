@@ -6,10 +6,12 @@ name = "pypi"
 [packages]
 chalice = "*"
 boto3 = "*"
+python-decouple = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
+ipython = "*"
 
 [requires]
 python_full_version = "3.8.6"
