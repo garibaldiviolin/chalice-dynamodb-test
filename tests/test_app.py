@@ -4,9 +4,9 @@ from unittest.mock import patch, Mock
 from botocore.exceptions import ClientError
 
 
-def test_create_employee(lambda_client, employee):
+def test_create_employee(lambda_client, employee, employees_url):
     response = lambda_client.http.post(
-        "/employees",
+        employees_url,
         body=json.dumps(employee),
         headers={"Content-Type": "application/json"}
     )
@@ -14,9 +14,9 @@ def test_create_employee(lambda_client, employee):
     assert response.json_body == employee
 
 
-def test_list_employees(lambda_client):
+def test_list_employees(lambda_client, employees_url):
     response = lambda_client.http.get(
-        f"/employees",
+        employees_url,
         headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 200
@@ -27,9 +27,10 @@ def test_list_employees(lambda_client):
     }
 
 
-def test_get_employee(lambda_client, database_employee, employee):
+def test_get_employee(lambda_client, database_employee, employee,
+                      employee_url):
     response = lambda_client.http.get(
-        f"/employees/{employee['employee_name']}",
+        employee_url,
         headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 200
@@ -38,7 +39,8 @@ def test_get_employee(lambda_client, database_employee, employee):
 
 @patch("boto3.resource")
 def test_get_employee_with_internal_error(boto3_resource_mock, lambda_client,
-                                          database_employee, employee):
+                                          database_employee, employee,
+                                          employee_url):
     table_mock = Mock()
     table_mock.get_item = Mock()
     table_mock.get_item.side_effect = ClientError(
@@ -50,25 +52,26 @@ def test_get_employee_with_internal_error(boto3_resource_mock, lambda_client,
     boto3_resource_mock.return_value = dynamodb_mock
 
     response = lambda_client.http.get(
-        f"/employees/{employee['employee_name']}",
+        employee_url,
         headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 500
     assert response.json_body == {"error": "internal_error"}
 
 
-def test_get_employee_not_found(lambda_client, database_employee, employee):
+def test_get_employee_not_found(lambda_client, database_employee, employee,
+                                inexistent_employee_url):
     response = lambda_client.http.get(
-        f"/employees/name_not_found",
+        inexistent_employee_url,
         headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 404
     assert response.json_body == {"error": "not_found"}
 
 
-def test_update_employee(lambda_client, employee):
+def test_update_employee(lambda_client, employee, employee_url):
     response = lambda_client.http.put(
-        f"/employees/{employee['employee_name']}",
+        employee_url,
         body=json.dumps(employee),
         headers={"Content-Type": "application/json"}
     )
@@ -76,18 +79,20 @@ def test_update_employee(lambda_client, employee):
     assert response.json_body == employee
 
 
-def test_delete_employee(lambda_client, database_employee, employee):
+def test_delete_employee(lambda_client, database_employee, employee,
+                         employee_url):
     response = lambda_client.http.delete(
-        f"/employees/{employee['employee_name']}",
+        employee_url,
         headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 204
     assert response.json_body is None
 
 
-def test_delete_employee_not_found(lambda_client, employee):
+def test_delete_employee_not_found(lambda_client, employee,
+                                   inexistent_employee_url):
     response = lambda_client.http.delete(
-        f"/employees/employee_not_found",
+        inexistent_employee_url,
         headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 404
@@ -96,7 +101,7 @@ def test_delete_employee_not_found(lambda_client, employee):
 
 @patch("boto3.resource")
 def test_delete_employee_internal_error(boto3_resource_mock, lambda_client,
-                                        employee):
+                                        employee, inexistent_employee_url):
     table_mock = Mock()
     table_mock.delete_item = Mock()
     table_mock.delete_item.side_effect = ClientError(
@@ -108,7 +113,7 @@ def test_delete_employee_internal_error(boto3_resource_mock, lambda_client,
     boto3_resource_mock.return_value = dynamodb_mock
 
     response = lambda_client.http.delete(
-        f"/employees/employee_not_found",
+        inexistent_employee_url,
         headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 500

@@ -32,3 +32,18 @@ def database_table():
 @pytest.fixture
 def database_employee(database_table, employee):
     return database_table.put_item(Item=employee)
+
+
+@pytest.fixture
+def employees_url():
+    return "/employees"
+
+
+@pytest.fixture
+def employee_url(employee):
+    return f"/employees/{employee['employee_name']}"
+
+
+@pytest.fixture
+def inexistent_employee_url():
+    return "/employees/inexistent_employee"
