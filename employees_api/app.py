@@ -2,7 +2,7 @@ import boto3
 from botocore.exceptions import ClientError
 from chalice import Chalice, Response
 
-from .database import load_database_table
+from database import load_database_table
 
 app = Chalice(app_name="employees_api")
 
