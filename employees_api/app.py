@@ -22,14 +22,9 @@ def create_employee():
 
 @app.route("/employees", methods=["GET"])
 def list_employees():
-    return Response(
-        body={
-            "results": [
-                {"id": "1"}
-            ]
-        },
-        status_code=200
-    )
+    table = load_database_table("Employees")
+    response = table.scan()
+    return response['Items']
 
 
 @app.route("/employees/{employee_name}", methods=["GET"])
