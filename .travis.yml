@@ -4,6 +4,10 @@ services:
     image: amazon/dynamodb-local
     ports:
       - "8000"
+    env:
+      - AWS_ACCESS_KEY_ID: 'DUMMYIDEXAMPLE'
+      - AWS_SECRET_ACCESS_KEY: 'DUMMYEXAMPLEKEY'
+      - AWS_DEFAULT_REGION: us-east-2
     command:
       - cd dynamodb_local_latest && java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
 python:
