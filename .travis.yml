@@ -22,5 +22,5 @@ env:
   - AWS_SECRET_ACCESS_KEY: 'DUMMYEXAMPLEKEY'
   - AWS_DEFAULT_REGION: us-east-2
 script:
-  - python create_dynamodb_table.py
+  - pipenv run python create_dynamodb_table.py
   - make test
