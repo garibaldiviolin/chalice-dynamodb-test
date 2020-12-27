@@ -1,14 +1,12 @@
 import boto3
 
+from database import load_database
 
-def create_employees_table(dynamodb=None):
-    if not dynamodb:
-        dynamodb = boto3.resource(
-            "dynamodb",
-            endpoint_url="http://localhost:8000"
-        )
 
-    table = dynamodb.create_table(
+def create_employees_table():
+    database = load_database()
+
+    table = database.create_table(
         TableName="Employees",
         KeySchema=[
             {

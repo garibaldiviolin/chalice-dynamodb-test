@@ -14,5 +14,5 @@ env:
 links:
   - dynamodb
 script:
-  - pipenv run python create_dynamodb_table.py
+  - pipenv run python employees_api/create_dynamodb_table.py
   - make test
