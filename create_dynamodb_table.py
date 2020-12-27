@@ -1,7 +1,9 @@
 import boto3
+import os
 
 
 def create_employees_table(dynamodb=None):
+    print(os.environ)
     if not dynamodb:
         dynamodb = boto3.resource(
             "dynamodb",
