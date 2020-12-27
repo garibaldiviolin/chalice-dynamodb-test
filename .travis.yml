@@ -13,5 +13,5 @@ install:
   - pipenv install --dev
 # command to run tests
 script:
-  - echo "ok"
+  - python create_dynamodb_table.py
   - make test
