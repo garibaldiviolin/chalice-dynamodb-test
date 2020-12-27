@@ -1,4 +1,11 @@
 language: python
+services:
+  dynamodb:
+    image: amazon/dynamodb-local
+    ports:
+      - "8000"
+    command:
+      - cd dynamodb_local_latest && java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
 python:
   - "3.8.6"
 install:
