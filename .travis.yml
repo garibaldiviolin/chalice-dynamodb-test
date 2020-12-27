@@ -1,9 +1,12 @@
 language: python
+
 services:
-  dynamodb:
-    image: amazon/dynamodb-local
-    ports:
-      - "8000"
+  - docker
+
+before_install:
+- docker pull amazon/dynamodb-local
+- docker run -p 8000:8000 amazon/dynamodb-local
+
 python:
   - "3.8.6"
 install:
