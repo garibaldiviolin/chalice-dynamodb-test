@@ -17,10 +17,10 @@ install:
   - pipenv install --dev
 # command to run tests
 env:
-  - DATABASE_URL: http://localhost:8000/
-  - AWS_ACCESS_KEY_ID: 'DUMMYIDEXAMPLE'
-  - AWS_SECRET_ACCESS_KEY: 'DUMMYEXAMPLEKEY'
-  - AWS_DEFAULT_REGION: us-east-2
+  - DATABASE_URL=http://localhost:8000/
+  - AWS_ACCESS_KEY_ID=DUMMYIDEXAMPLE
+  - AWS_SECRET_ACCESS_KEY=DUMMYEXAMPLEKEY
+  - AWS_DEFAULT_REGION=us-east-2
 script:
   - pipenv run python create_dynamodb_table.py
   - make test
