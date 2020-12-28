@@ -1,5 +1,8 @@
 run-local-dynamodb:
-	cd dynamodb_local_latest && java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+	mkdir -p dynamodb_local_latest/tests && \
+	rm -Rf dynamodb_local_latest/tests/* && \
+	cd dynamodb_local_latest && \
+	java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -dbPath tests
 
 run-local-chalice:
 	cd employees_api && pipenv run chalice local --port 8001
