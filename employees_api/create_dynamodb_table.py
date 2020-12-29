@@ -1,5 +1,3 @@
-import boto3
-
 from database import load_database
 
 
