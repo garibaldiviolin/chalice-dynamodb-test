@@ -1,6 +1,7 @@
 import json
 from unittest.mock import patch, Mock
 
+import pytest
 from botocore.exceptions import ClientError
 
 
@@ -44,6 +45,38 @@ def test_list_employees(lambda_client, employees_url, database_employee):
     assert response.json_body == [
         {"city": "Houston", "employee_name": "John Dunbar"}
     ]
+
+
+def test_list_employees_with_invalid_filter(lambda_client, employees_url,
+                                            database_employee):
+    response = lambda_client.http.get(
+        employees_url + "?city=Houston",
+        headers={"Content-Type": "application/json"}
+    )
+    assert response.status_code == 200
+    assert response.json_body == [
+        {"city": "Houston", "employee_name": "John Dunbar"}
+    ]
+
+
+@pytest.mark.parametrize(
+    "query_strings, expected_response",
+    (
+        ("?employee_name=John%20Dunbar", [
+            {"city": "Houston", "employee_name": "John Dunbar"}
+        ]),
+        ("?employee_name=John", [])
+    )
+)
+def test_list_employees_with_valid_filter(query_strings, expected_response,
+                                          lambda_client, employees_url,
+                                          database_employee):
+    response = lambda_client.http.get(
+        employees_url + query_strings,
+        headers={"Content-Type": "application/json"}
+    )
+    assert response.status_code == 200
+    assert response.json_body == expected_response
 
 
 def test_get_employee(lambda_client, database_employee, employee,

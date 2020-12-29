@@ -1,3 +1,4 @@
+from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 from chalice import Chalice, Response
 from pydantic.error_wrappers import ValidationError
@@ -31,7 +32,25 @@ def create_employee():
 @app.route("/employees", methods=["GET"])
 def list_employees():
     table = load_database_table("Employees")
-    response = table.scan()
+
+    filters = None
+    query_params = app.current_request.query_params or {}
+    for key, value in query_params.items():
+        if key not in ("employee_name"):
+            continue
+
+        table_filter = Key(key).eq(value)
+        if filters is None:
+            filters = table_filter
+        else:
+            filters &= table_filter
+
+    if filters:
+        response = table.query(
+            KeyConditionExpression=filters
+        )
+    else:
+        response = table.scan()
     return response["Items"]
 
 
