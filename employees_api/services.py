@@ -5,15 +5,8 @@ def get_query_parameters(query_params):
     query_params = query_params or {}
 
     filters = None
-    for key, value in query_params.items():
-        if key not in ("employee_name", ):
-            continue
-
-        table_filter = Key(key).eq(value)
-        if filters is None:
-            filters = table_filter
-        else:
-            filters &= table_filter
+    if "employee_name" in query_params:
+        filters = Key("employee_name").eq(query_params["employee_name"])
 
     parameters = {
         "Limit": 5,
