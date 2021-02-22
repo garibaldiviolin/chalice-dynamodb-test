@@ -1,7 +1,7 @@
 import pytest
 from pydantic.error_wrappers import ValidationError
 
-from models import Employee, UpdateEmployee
+from chalicelib.models import Employee, UpdateEmployee
 
 
 def test_update_employee(employee):

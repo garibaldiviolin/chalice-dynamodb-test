@@ -3,6 +3,9 @@
   "app_name": "employees_api",
   "stages": {
     "dev": {
+      "environment_variables": {
+          "DATABASE_URL": "https://dynamodb.us-east-2.amazonaws.com"
+      },
       "api_gateway_stage": "api"
     }
   }

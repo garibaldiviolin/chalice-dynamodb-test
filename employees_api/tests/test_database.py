@@ -1,10 +1,10 @@
 from unittest.mock import Mock, patch
 
-from database import load_database, load_database_table
+from chalicelib.database import load_database, load_database_table
 
 
 @patch("boto3.resource")
-@patch("database.config")
+@patch("chalicelib.database.config")
 def test_load_database(decouple_config_mock, boto3_resource_mock):
     database_url = "http://nice_database_url"
     decouple_config_mock.return_value = database_url
@@ -20,7 +20,7 @@ def test_load_database(decouple_config_mock, boto3_resource_mock):
     )
 
 
-@patch("database.load_database")
+@patch("chalicelib.database.load_database")
 def test_load_database_table(load_database_mock):
     database_mock = Mock()
     table_mock = Mock()

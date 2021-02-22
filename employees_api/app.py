@@ -2,9 +2,9 @@ from botocore.exceptions import ClientError
 from chalice import Chalice, Response
 from pydantic.error_wrappers import ValidationError
 
-from database import load_database_table
-from models import UpdateEmployee, Employee
-from services import get_query_parameters
+from chalicelib.database import load_database_table
+from chalicelib.models import UpdateEmployee, Employee
+from chalicelib.services import get_query_parameters
 
 app = Chalice(app_name="employees_api")
 

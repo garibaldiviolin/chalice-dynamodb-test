@@ -1,4 +1,4 @@
-from database import load_database
+from chalicelib.database import load_database
 
 
 def create_employees_table():

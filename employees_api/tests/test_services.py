@@ -1,6 +1,6 @@
 from boto3.dynamodb.conditions import Key
 
-from services import get_query_parameters
+from chalicelib.services import get_query_parameters
 
 
 def test_get_query_parameters_without_parameters():

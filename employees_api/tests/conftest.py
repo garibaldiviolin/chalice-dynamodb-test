@@ -3,7 +3,7 @@ import pytest
 from chalice.test import Client
 
 from app import app
-from database import load_database_table
+from chalicelib.database import load_database_table
 
 
 @pytest.fixture

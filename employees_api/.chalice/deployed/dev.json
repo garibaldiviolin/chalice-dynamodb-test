@@ -1,5 +1,23 @@
 {
-  "resources": [],
+  "resources": [
+    {
+      "name": "default-role",
+      "resource_type": "iam_role",
+      "role_arn": "arn:aws:iam::477341049140:role/employees_api-dev",
+      "role_name": "employees_api-dev"
+    },
+    {
+      "name": "api_handler",
+      "resource_type": "lambda_function",
+      "lambda_arn": "arn:aws:lambda:us-east-2:477341049140:function:employees_api-dev"
+    },
+    {
+      "name": "rest_api",
+      "resource_type": "rest_api",
+      "rest_api_id": "v34fu34dt4",
+      "rest_api_url": "https://v34fu34dt4.execute-api.us-east-2.amazonaws.com/api/"
+    }
+  ],
   "schema_version": "2.0",
   "backend": "api"
 }
