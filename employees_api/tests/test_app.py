@@ -42,9 +42,9 @@ def test_list_employees(lambda_client, employees_url, database_employee):
         headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 200
-    assert response.json_body == [
-        {"city": "Houston", "employee_name": "John Dunbar"}
-    ]
+    assert response.json_body == {
+        "results": [{"city": "Houston", "employee_name": "John Dunbar"}]
+    }
 
 
 def test_list_employees_with_invalid_filter(lambda_client, employees_url,
@@ -54,9 +54,9 @@ def test_list_employees_with_invalid_filter(lambda_client, employees_url,
         headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 200
-    assert response.json_body == [
-        {"city": "Houston", "employee_name": "John Dunbar"}
-    ]
+    assert response.json_body == {
+        "results": [{"city": "Houston", "employee_name": "John Dunbar"}]
+    }
 
 
 @pytest.mark.parametrize(
@@ -76,7 +76,9 @@ def test_list_employees_with_valid_filter(query_strings, expected_response,
         headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 200
-    assert response.json_body == expected_response
+    assert response.json_body == {
+        "results": expected_response
+    }
 
 
 def test_get_employee(lambda_client, database_employee, employee,
