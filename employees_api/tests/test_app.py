@@ -1,4 +1,5 @@
 import json
+from operator import itemgetter
 from unittest.mock import patch, Mock
 
 import pytest
@@ -45,6 +46,20 @@ def test_list_employees(lambda_client, employees_url, database_employee):
     assert response.json_body == {
         "results": [{"city": "Houston", "employee_name": "John Dunbar"}]
     }
+
+
+def test_list_employees_with_more_results(lambda_client, employees_url,
+                                          six_database_employee):
+    response = lambda_client.http.get(
+        employees_url,
+        headers={"Content-Type": "application/json"}
+    )
+    assert response.status_code == 200
+    assert response.json_body["last_result"] == "0"
+    assert len(response.json_body["results"]) == 5
+    first_item = response.json_body["results"][0]
+    assert "city" in first_item
+    assert "employee_name" in first_item
 
 
 def test_list_employees_with_invalid_filter(lambda_client, employees_url,
