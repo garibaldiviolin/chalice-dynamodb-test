@@ -1,6 +1,6 @@
 run-local-dynamodb:
+	rm -Rf dynamodb_local_latest/tests && \
 	mkdir -p dynamodb_local_latest/tests && \
-	rm -Rf dynamodb_local_latest/tests/* && \
 	cd dynamodb_local_latest && \
 	java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -dbPath tests
 
