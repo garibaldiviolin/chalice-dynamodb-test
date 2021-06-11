@@ -6,5 +6,4 @@ class UpdateEmployee(BaseModel):
 
 
 class Employee(UpdateEmployee):
-    city: str
     employee_name: str
