@@ -47,17 +47,17 @@ def list_employees():
     }
     next_results = results.get("LastEvaluatedKey")
     if next_results:
-        response["last_result"] = next_results["employee_name"]
+        response["last_result"] = next_results["username"]
 
     return response
 
 
-@app.route("/employees/{employee_name}", methods=["GET"])
-def get_employee(employee_name):
+@app.route("/employees/{username}", methods=["GET"])
+def get_employee(username):
     table = load_database_table("Employees")
 
     try:
-        response = table.get_item(Key={"employee_name": employee_name})
+        response = table.get_item(Key={"username": username})
     except ClientError:
         return Response(body={"error": "internal_error"}, status_code=500)
 
@@ -67,8 +67,8 @@ def get_employee(employee_name):
         return Response(body={"error": "not_found"}, status_code=404)
 
 
-@app.route("/employees/{employee_name}", methods=["PUT"])
-def update_employee(employee_name):
+@app.route("/employees/{username}", methods=["PUT"])
+def update_employee(username):
     try:
         employee = UpdateEmployee(**app.current_request.json_body)
     except ValidationError as exc:
@@ -80,7 +80,7 @@ def update_employee(employee_name):
     table = load_database_table("Employees")
 
     response = table.update_item(
-        Key={"employee_name": employee_name},
+        Key={"username": username},
         UpdateExpression="set city=:city",
         ExpressionAttributeValues={
             ":city": employee.dict()["city"],
@@ -90,18 +90,18 @@ def update_employee(employee_name):
     return response["Attributes"]
 
 
-@app.route("/employees/{employee_name}", methods=["DELETE"])
-def delete_employee(employee_name):
+@app.route("/employees/{username}", methods=["DELETE"])
+def delete_employee(username):
     table = load_database_table("Employees")
 
     try:
         table.delete_item(
             Key={
-                "employee_name": employee_name,
+                "username": username,
             },
-            ConditionExpression="employee_name = :v_employee_name",
+            ConditionExpression="username = :v_username",
             ExpressionAttributeValues={
-                ":v_employee_name": employee_name
+                ":v_username": username
             }
         )
     except ClientError as e:

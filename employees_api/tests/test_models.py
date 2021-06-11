@@ -5,7 +5,7 @@ from chalicelib.models import Employee, UpdateEmployee
 
 
 def test_update_employee(employee):
-    del employee["employee_name"]
+    del employee["username"]
     instance = UpdateEmployee(**employee)
     instance.dict == employee
 
@@ -37,7 +37,7 @@ def test_employee_without_required_fields():
             "type": "value_error.missing"
         },
         {
-            "loc": ("employee_name",),
+            "loc": ("username",),
             "msg": "field required",
             "type": "value_error.missing"
         },

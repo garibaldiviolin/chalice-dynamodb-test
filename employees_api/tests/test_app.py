@@ -30,7 +30,7 @@ def test_create_employee_without_fields(lambda_client, employees_url):
             "type": "value_error.missing"
         },
         {
-            "loc": ["employee_name"],
+            "loc": ["username"],
             "msg": "field required",
             "type": "value_error.missing"
         },
@@ -44,7 +44,7 @@ def test_list_employees(lambda_client, employees_url, database_employee):
     )
     assert response.status_code == 200
     assert response.json_body == {
-        "results": [{"city": "Houston", "employee_name": "John Dunbar"}]
+        "results": [{"city": "Houston", "username": "john_dunbar"}]
     }
 
 
@@ -59,7 +59,7 @@ def test_list_employees_with_more_results(lambda_client, employees_url,
     assert len(response.json_body["results"]) == 5
     first_item = response.json_body["results"][0]
     assert "city" in first_item
-    assert "employee_name" in first_item
+    assert "username" in first_item
 
 
 def test_list_employees_with_invalid_filter(lambda_client, employees_url,
@@ -70,17 +70,17 @@ def test_list_employees_with_invalid_filter(lambda_client, employees_url,
     )
     assert response.status_code == 200
     assert response.json_body == {
-        "results": [{"city": "Houston", "employee_name": "John Dunbar"}]
+        "results": [{"city": "Houston", "username": "john_dunbar"}]
     }
 
 
 @pytest.mark.parametrize(
     "query_strings, expected_response",
     (
-        ("?employee_name=John%20Dunbar", [
-            {"city": "Houston", "employee_name": "John Dunbar"}
+        ("?username=john_dunbar", [
+            {"city": "Houston", "username": "john_dunbar"}
         ]),
-        ("?employee_name=John", [])
+        ("?username=john", [])
     )
 )
 def test_list_employees_with_valid_filter(query_strings, expected_response,

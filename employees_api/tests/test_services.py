@@ -9,18 +9,18 @@ def test_get_query_parameters_without_parameters():
 
 
 def test_get_query_parameters_with_parameters():
-    parameters = get_query_parameters({"employee_name": "James"})
+    parameters = get_query_parameters({"username": "james_jones"})
     assert parameters == {
         "Limit": 5,
-        "KeyConditionExpression": Key("employee_name").eq("James"),
+        "KeyConditionExpression": Key("username").eq("james_jones"),
     }
 
 
 def test_get_query_parameters_with_last_result():
-    parameters = get_query_parameters({"last_result": "John"})
+    parameters = get_query_parameters({"last_result": "james_jones"})
     assert parameters == {
         'Limit': 5,
         'ExclusiveStartKey': {
-            'employee_name': 'John'
+            'username': 'james_jones'
         }
     }

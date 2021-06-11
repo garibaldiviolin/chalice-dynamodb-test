@@ -6,4 +6,4 @@ class UpdateEmployee(BaseModel):
 
 
 class Employee(UpdateEmployee):
-    employee_name: str
+    username: str

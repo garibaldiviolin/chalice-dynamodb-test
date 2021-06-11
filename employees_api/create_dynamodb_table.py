@@ -8,13 +8,13 @@ def create_employees_table():
         TableName="Employees",
         KeySchema=[
             {
-                "AttributeName": "employee_name",
+                "AttributeName": "username",
                 "KeyType": "HASH"  # Partition key
             },
         ],
         AttributeDefinitions=[
             {
-                "AttributeName": "employee_name",
+                "AttributeName": "username",
                 "AttributeType": "S"
             },
         ],

@@ -15,7 +15,7 @@ def lambda_client():
 @pytest.fixture
 def employee():
     return {
-        "employee_name": "John Dunbar",
+        "username": "john_dunbar",
         "city": "Houston"
     }
 
@@ -39,7 +39,7 @@ def database_employee(database_table, employee):
 def six_database_employee(database_table, employee):
     employees = []
     for number in range(6):
-        employee["employee_name"] = str(number)
+        employee["username"] = str(number)
         employees.append(database_table.put_item(Item=employee))
     return employees
 
@@ -51,7 +51,7 @@ def employees_url():
 
 @pytest.fixture
 def employee_url(employee):
-    return f"/employees/{employee['employee_name']}"
+    return f"/employees/{employee['username']}"
 
 
 @pytest.fixture
@@ -67,4 +67,4 @@ def run_around_tests():
 
     with table.batch_writer() as batch:
         for each in scan['Items']:
-            batch.delete_item(Key={"employee_name": each["employee_name"]})
+            batch.delete_item(Key={"username": each["username"]})
