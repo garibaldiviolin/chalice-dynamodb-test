@@ -4,7 +4,7 @@
   "stages": {
     "dev": {
       "environment_variables": {
-          "DATABASE_URL": "https://localhost:8000"
+          "DATABASE_URL": "http://localhost:8000"
       },
       "api_gateway_stage": "api",
       "autogen_policy": false,
