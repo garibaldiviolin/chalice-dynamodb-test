@@ -4,7 +4,7 @@
   "stages": {
     "dev": {
       "environment_variables": {
-          "DATABASE_URL": "https://dynamodb.us-east-2.amazonaws.com"
+          "DATABASE_URL": "https://localhost:8000"
       },
       "api_gateway_stage": "api",
       "autogen_policy": false,
