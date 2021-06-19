@@ -1,3 +1,6 @@
+create-database:
+	pipenv run python employees_api/create_dynamodb_table.py
+
 run-local-dynamodb:
 	rm -Rf dynamodb_local_latest/tests && \
 	mkdir -p dynamodb_local_latest/tests && \
