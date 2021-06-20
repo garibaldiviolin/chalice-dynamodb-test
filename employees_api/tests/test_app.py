@@ -25,6 +25,11 @@ def test_create_employee_without_fields(lambda_client, employees_url):
     assert response.status_code == 400
     assert response.json_body == [
         {
+            "loc": ["country"],
+            "msg": "field required",
+            "type": "value_error.missing"
+        },
+        {
             "loc": ["city"],
             "msg": "field required",
             "type": "value_error.missing"
@@ -44,7 +49,11 @@ def test_list_employees(lambda_client, employees_url, database_employee):
     )
     assert response.status_code == 200
     assert response.json_body == {
-        "results": [{"city": "Houston", "username": "john_dunbar"}]
+        "results": [{
+            "city": "Houston",
+            "username": "john_dunbar",
+            "country": "United States of America"
+        }]
     }
 
 
@@ -59,18 +68,25 @@ def test_list_employees_with_more_results(lambda_client, employees_url,
     assert len(response.json_body["results"]) == 5
     first_item = response.json_body["results"][0]
     assert "city" in first_item
+    assert "country" in first_item
     assert "username" in first_item
 
 
 def test_list_employees_with_invalid_filter(lambda_client, employees_url,
                                             database_employee):
     response = lambda_client.http.get(
-        employees_url + "?city=Houston",
+        employees_url + "?country=United%20States%20of%20America&city=Houston",
         headers={"Content-Type": "application/json"}
     )
     assert response.status_code == 200
     assert response.json_body == {
-        "results": [{"city": "Houston", "username": "john_dunbar"}]
+        "results": [
+            {
+                "city": "Houston",
+                "username": "john_dunbar",
+                "country": "United States of America"
+            }
+        ]
     }
 
 
@@ -78,7 +94,11 @@ def test_list_employees_with_invalid_filter(lambda_client, employees_url,
     "query_strings, expected_response",
     (
         ("?username=john_dunbar", [
-            {"city": "Houston", "username": "john_dunbar"}
+            {
+                "city": "Houston",
+                "username": "john_dunbar",
+                "country": "United States of America"
+            }
         ]),
         ("?username=john", [])
     )
@@ -157,10 +177,15 @@ def test_update_employee_without_fields(lambda_client, employee, employee_url):
     assert response.status_code == 400
     assert response.json_body == [
         {
+            "loc": ["country"],
+            "msg": "field required",
+            "type": "value_error.missing"
+        },
+        {
             "loc": ["city"],
             "msg": "field required",
             "type": "value_error.missing"
-        }
+        },
     ]
 
 

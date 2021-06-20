@@ -16,7 +16,8 @@ def lambda_client():
 def employee():
     return {
         "username": "john_dunbar",
-        "city": "Houston"
+        "city": "Houston",
+        "country": "United States of America",
     }
 
 

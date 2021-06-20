@@ -15,6 +15,11 @@ def test_update_employee_without_required_fields():
         UpdateEmployee(**{})
     assert exc.value.errors() == [
         {
+            "loc": ("country",),
+            "msg": "field required",
+            "type": "value_error.missing"
+        },
+        {
             "loc": ("city",),
             "msg": "field required",
             "type": "value_error.missing"
@@ -31,6 +36,11 @@ def test_employee_without_required_fields():
     with pytest.raises(ValidationError) as exc:
         Employee(**{})
     assert exc.value.errors() == [
+        {
+            "loc": ("country",),
+            "msg": "field required",
+            "type": "value_error.missing"
+        },
         {
             "loc": ("city",),
             "msg": "field required",

@@ -2,6 +2,7 @@ from pydantic import BaseModel
 
 
 class UpdateEmployee(BaseModel):
+    country: str
     city: str
 
 

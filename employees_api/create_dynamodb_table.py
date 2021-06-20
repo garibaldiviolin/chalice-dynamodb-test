@@ -17,6 +17,36 @@ def create_employees_table():
                 "AttributeName": "username",
                 "AttributeType": "S"
             },
+            {
+                "AttributeName": "country",
+                "AttributeType": "S"
+            },
+            {
+                "AttributeName": "city",
+                "AttributeType": "S"
+            },
+        ],
+        GlobalSecondaryIndexes=[
+            {
+                "IndexName": "RegionIndex",
+                "KeySchema": [
+                    {
+                        "AttributeName": "country",
+                        "KeyType": "HASH"
+                    },
+                    {
+                        "AttributeName": "city",
+                        "KeyType": "RANGE"
+                    },
+                ],
+                "Projection": {
+                    "ProjectionType": "ALL"
+                },
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": 10,
+                    "WriteCapacityUnits": 10,
+                }
+            },
         ],
         ProvisionedThroughput={
             "ReadCapacityUnits": 10,

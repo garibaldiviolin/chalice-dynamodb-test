@@ -81,9 +81,10 @@ def update_employee(username):
 
     response = table.update_item(
         Key={"username": username},
-        UpdateExpression="set city=:city",
+        UpdateExpression="set city=:city, country=:country",
         ExpressionAttributeValues={
             ":city": employee.dict()["city"],
+            ":country": employee.dict()["country"],
         },
         ReturnValues="ALL_NEW"
     )
