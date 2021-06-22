@@ -11,4 +11,4 @@ A test using Chalice (Python framework for AWS Lambda) and AWS DynamoDB
 2) Run `make run-local-chalice` to start the chalice development server.
 
 ## Production
-- Replace `DATABASE_URL` value by `dynamodb.us-east-2.amazonaws.com` in `employees_api/.chalice/config.json`.
+- Replace `DATABASE_URL` value by `dynamodb.sa-east-1.amazonaws.com` in `employees_api/.chalice/config.json`.
